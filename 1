@@ -1,0 +1,62 @@
+sudo apt install openjdk-8-jre-headless
+sudo apt install openjdk-8-jdk-headless
+ssh-keygen -t rsa -P ""
+cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized.keys
+ssh localhost
+
+sudo apt-get install pdsh
+pdsh -q -w localhost
+//cek default rsh
+export PDSH_RCMD_TYPE=ssh
+wget https://archive.apache.org/dist/hadoop/common/hadoop-3.4.0/hadoop-3.4.0.tar.gz
+tar -xvf hadoop-3.4.0.tar.gz
+mv hadoop-3.4.0 Hadoop
+sudo mv hadoop/ /usr/share/
+
+sudo .bashrc
+
+   export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+   export HADOOP_INSTALL=/usr/share/Hadoop
+   export PATH=$PATH:$HADOOP_INSTALL/bin
+   export PATH=$PATH:$HADOOP_INSTALL/sbin
+   export HADOOP_MAPRED_HOME=$HADOOP_INSTALL
+   export HADOOP_COMMON_HOME=$HADOOP_INSTALL
+   export HADOOP_HDFS_HOME=$HADOOP_INSTALL
+   export YARN_HOME=$HADOOP_INSTALL
+   export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_INSTALL/lib/native
+   export HADOOP_OPTS="-Djava.library.path=$HADOOP_INSTALL/lib"
+
+source .bashrc
+
+cd /usr/share/Hadoop/etc/hadoop/
+sudo core-site.xml
+  
+   <configuration>
+     <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://localhost/</value>
+     </property>
+   </configuration> 
+
+sudo hdfs-site.xml
+   <configuration>
+     <property>
+       <name>dfs.replication</name>
+       <value>1</value>
+     </property>
+     <property>
+       <name>dfs.permission</name>
+       <value>false</value>
+     </property>
+   </configuration>
+  
+sudo mapred-site.xml
+
+   <configuration>
+     <property>
+       <name>mapreduce.framework.name</name>
+       <value>yarn</value>
+     </property>
+   </configuration>
+
+
