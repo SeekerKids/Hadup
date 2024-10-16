@@ -15,11 +15,9 @@ export PDSH_RCMD_TYPE=ssh
 wget https://archive.apache.org/dist/hadoop/common/hadoop-3.4.0/hadoop-3.4.0.tar.gz
 tar -xvf hadoop-3.4.0.tar.gz
 mv hadoop-3.4.0 Hadoop
-sudo mv hadoop/ /usr/share/
+sudo mv Hadoop/ /usr/share/
 
-
-cd /usr/share/Hadoop/etc/hadoop/
-sudo .bashrc
+nano .bashrc
 
    export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
    export HADOOP_INSTALL=/usr/share/Hadoop
@@ -35,7 +33,7 @@ sudo .bashrc
 source .bashrc
 
 cd /usr/share/Hadoop/etc/hadoop/
-sudo core-site.xml
+nano core-site.xml
   
    <configuration>
      <property>
@@ -44,7 +42,7 @@ sudo core-site.xml
      </property>
    </configuration> 
 
-sudo hdfs-site.xml
+nano hdfs-site.xml
    <configuration>
      <property>
        <name>dfs.replication</name>
@@ -56,7 +54,7 @@ sudo hdfs-site.xml
      </property>
    </configuration>
   
-sudo mapred-site.xml
+nano mapred-site.xml
 
    <configuration>
      <property>
@@ -64,6 +62,22 @@ sudo mapred-site.xml
        <value>yarn</value>
      </property>
    </configuration>
+
+yarn-site.xml
+ <configuration>
+    <property>
+    <name>yarn.resourcemanager.hostname</name>
+    <value>localhost</value>
+ </property>
+ <property>
+    <name>yarn.nodemanager.aux-services</name>
+ </property>
+ <property>
+    <value>mapreduce_shuffle</value>
+    <name>yarn.nodemanager.auxservices.mapreduce.shuffle.clas</name>
+    <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+ </property>
+ </configuration>
    
 sudo  hadoop-env.sh
     # The java implementation to use 
