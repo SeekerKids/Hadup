@@ -35,8 +35,8 @@ nano .bashrc
 source .bashrc
 
 cd /usr/share/Hadoop/etc/hadoop/
+
 nano core-site.xml
-  
    <configuration>
      <property>
         <name>fs.defaultFS</name>
@@ -94,6 +94,92 @@ cd /usr/share/Hadoop/sbin
 jps 
    ./
 //multi cluster
+
+cd /usr/share/Hadoop/etc/hadoop/
+mkdir–p hdfstmp
+mkdir–p hdfs/namenode
+mkdir–p hdfs/datanode
+chmod 755 hdfstmp
+chmod 755 hdfs/namenode
+chmod 755 hdfs/datanode
+
+nano core-site.xml
+   <configuration>
+      <property>
+         <name>hadoop.tmp.dir</name>
+         <value>/home/adiba/hdfstmp</value>
+       </property>
+       <property>
+          <name>fs.default.name</name>
+          <value>hdfs://master:8020</value>
+       </property>
+       <property>
+          <name>fs.defaultFS</name>
+          <value>hdfs://master:8020</value>
+       </property>
+ </configuration>
+
+ nano hdfs-site.xml
+   <configuration>
+      <property>
+         <name>dfs.replication</name>
+         <value>2</value>
+      </property>   
+      <property>
+         <name>dfs.permissions</name>
+         <value>false</value>
+      </property>
+      <property>
+         <name>fs.default.name</name>
+         <value>hdfs://master:8020</value>
+      </property>    
+      <property>
+         <name>dfs.datanode.data.dir</name>
+         <value>file:///home/adiba/hdfs/datanode</value>
+         <final>true</final>
+      </property>    
+      <property>
+         <name>dfs.namenode.name.dir</name>
+         <value>file:///home/adiba/hdfs/namenode</value>
+         <final>true</final>
+   </property>
+ </configuration>
+
+nano mapred-site.xml
+<configuration>
+    <property>
+       <name>mapred.job.tracker</name>
+       <value>hdfs://master:8021</value>
+    </property>
+    <property>
+       <name>mapreduce.framework.name</name>
+       <value>yarn</value>
+    </property>
+ </configuration>
+
+
+
+ nano yarn-site.xml
+    <configuration>
+       <property>
+          <name>yarn.resourcemanager.hostname</name>
+           <value>master</value>
+       </property>
+       <property>
+          <name>yarn.nodemanager.aux-services</name>
+          <value>mapreduce_shuffle</value>
+       </property>
+       <property>
+          <name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
+          <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+       </property>
+    </configuration>
+
+
+
+
+
+
 
 
 
